@@ -1,0 +1,110 @@
+# L'Intello
+
+*The brainy one* — a smart AI backend for multi-LLM routing, literary analysis, writing tools, OCR, and document reconstruction.
+
+## Quick Start
+
+```bash
+git clone https://github.com/collaed/lintello.git
+cd intello
+cp .env.example .env    # Add your API keys
+docker compose up -d    # → http://localhost:8000
+```
+
+Get a free Groq key at https://console.groq.com — that's enough to start.
+
+## What it does
+
+### 🤖 Multi-LLM Routing
+29 models across 13 providers. Ask a question → L'Intello picks the best free model, falls back on failure, caches responses, and learns from your feedback.
+
+### 📚 Literary Analysis
+Upload a novel (TXT/PDF/EPUB) → get chapter structure, character tracking (spaCy NER), pacing curves, narrative thread visualization, and AI-powered edit suggestions.
+
+### ✍️ Writing Tools
+Show-not-tell, 5-sense describe, tone shift, brainstorm, shrink ray, first draft generator, 3 AI beta readers in parallel.
+
+### 🔄 Writing Workflow
+Project briefs → adaptive next-step → horizontal (expand) / vertical (enrich) modes → word count tracking → resumable across sessions.
+
+### 📄 OCR
+Tesseract → OCR.space → Gemini Vision auto-escalation. Single images, PDFs, async jobs for large books. 9 languages.
+
+### 🔗 Version Reconstruction
+Upload 50+ scattered version files → detect cross-references → rebuild complete document → LLM-smooth transitions.
+
+### 🔌 OpenAI-Compatible API
+Drop-in replacement at `/v1/chat/completions`. Works with any OpenAI SDK client, Ollama, external clients.
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/GETTING_STARTED.md) | First steps for new users |
+| [User Guide](docs/USER_GUIDE.md) | Complete feature guide + API reference |
+| [Admin Setup](docs/ADMIN_SETUP.md) | Installation, configuration, deployment |
+| [User Stories](docs/USER_STORIES.md) | 40+ user stories covering all features |
+| [Requirements](docs/REQUIREMENTS.md) | Functional and non-functional requirements |
+| [Migration](MIGRATION.md) | Migration from AI Router |
+
+## Architecture
+
+```
+intello/
+├── web.py              FastAPI app — 70+ routes, auth, all endpoints
+├── backends.py         LLM execution (14 providers)
+├── router.py           Task classification + scoring
+├── pipeline.py         Deep mode (draft → review → synthesis)
+├── debate.py           Multi-model adversarial debate
+├── chains.py           Prompt chaining / task decomposition
+├── literary.py         Document ingestion, structure, pacing, edits
+├── workflow.py         Writing workflow engine
+├── writing_tools.py    AI writing transformations
+├── craft.py            Dynamic literary reference engine
+├── reconstruct.py      Version reconstruction from scattered files
+├── nlp.py              spaCy NER + linguistic analysis
+├── cache.py            Semantic cache (sentence-transformers)
+├── memory.py           Conversation memory + learning
+├── guardrails.py       Anti-hallucination + word count
+├── tools.py            Web search, calculator, Python eval
+├── ocr.py              Tesseract + OCRmyPDF
+├── ocr_engines.py      Multi-engine OCR escalation
+├── imagegen.py         Image generation routing
+├── scheduler.py        Recurring tasks
+├── webhooks.py         External integrations
+├── gdrive.py           Google Drive OAuth + browsing
+├── keys.py             API key management
+├── ratelimit.py        Daily quota tracking
+├── models.py           Data models
+├── research.py         Provider catalog (29 models)
+└── static/
+    ├── index.html      Chat UI (ChatGPT-style)
+    ├── literary.html   Literary analysis page
+    ├── corkboard.html  Visual scene board
+    └── gdrive.html     Google Drive file browser
+```
+
+## Stats
+
+- **6,100+ lines** of Python
+- **1,500+ lines** of HTML/JS
+- **70+ API routes**
+- **29 LLM providers** (20 free, 41,850 free requests/day)
+- **36 automated tests** (whitebox + greybox + blackbox)
+
+## Why open source?
+
+L'Intello was built as a personal tool — a smart AI backend that routes prompts to the best free model, analyzes manuscripts, OCRs documents, and reconstructs scattered version files. It turned out to be useful enough to share.
+
+Most AI tools lock you into one provider, charge per word, or trap your data. L'Intello does the opposite:
+
+- **Bring your own keys** — use free tiers from 13 providers, pay nothing
+- **Self-hosted** — your data stays on your server
+- **No vendor lock-in** — swap providers by editing one file
+- **No subscription** — 48,000+ free requests/day across 26 free models
+
+It's not polished commercial software. It's a working tool built by a writer who got tired of paying $59/month for commercial AI writing tools when free LLMs are this good.
+
+## License
+
+AGPL-3.0 — free to use, modify, and self-host. If you modify and run it as a network service, share your changes.
